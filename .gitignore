@@ -29,3 +29,4 @@ dist-ssr
 !.env.example
 backend/.env
 backend/.env.*
+smartbook_backup.sql
