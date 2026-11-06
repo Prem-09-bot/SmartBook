@@ -253,38 +253,7 @@ function CartPage() {
                     </div>
 
                     <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5">
-                      {/* Quantity selector */}
-                      <div>
-                        <p className="mb-2 text-xs text-luxury-muted">
-                          Quantity
-                        </p>
-
-                        <div className="flex items-center border border-white/15">
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(item.id, -1)}
-                            disabled={Number(item.quantity) <= 1}
-                            className="p-2.5 text-luxury-ivory transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-30"
-                            aria-label="Decrease quantity"
-                          >
-                            <Minus size={14} />
-                          </button>
-
-                          <span className="min-w-10 text-center text-sm">
-                            {item.quantity}
-                          </span>
-
-                          <button
-                            type="button"
-                            onClick={() => updateQuantity(item.id, 1)}
-                            disabled={Number(item.quantity) >= 99}
-                            className="p-2.5 text-luxury-ivory transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-30"
-                            aria-label="Increase quantity"
-                          >
-                            <Plus size={14} />
-                          </button>
-                        </div>
-                      </div>
+{/* Quantity selector temporarily disabled */}
 
                       {/* Item total */}
                       <div className="text-right">

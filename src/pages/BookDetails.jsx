@@ -24,7 +24,7 @@ export default function BookDetails() {
 
   const book = books.find((item) => item.id === id)
 
-  const [quantity, setQuantity] = useState(1)
+  const quantity = 1
   const [cartMessage, setCartMessage] = useState('')
   const [wishlistMessage, setWishlistMessage] = useState('')
 
@@ -254,48 +254,7 @@ export default function BookDetails() {
               </div>
             </div>
 
-            {/* Quantity */}
-            <div className="mt-8">
-              <p className="mb-3 text-xs uppercase tracking-[0.15em] text-luxury-muted">
-                Quantity
-              </p>
-
-              <div className="inline-flex items-center border border-white/10">
-                <button
-                  type="button"
-                  aria-label="Decrease quantity"
-                  disabled={quantity <= 1}
-                  onClick={() => {
-                    setQuantity((current) => Math.max(1, current - 1))
-                    setCartMessage('')
-                  }}
-                  className="p-3 text-luxury-ivory transition hover:text-luxury-gold disabled:cursor-not-allowed disabled:opacity-30"
-                >
-                  <Minus size={16} />
-                </button>
-
-                <span className="min-w-12 text-center text-sm text-luxury-ivory">
-                  {quantity}
-                </span>
-
-                <button
-                  type="button"
-                  aria-label="Increase quantity"
-                  disabled={quantity >= 10}
-                  onClick={() => {
-                    setQuantity((current) => Math.min(10, current + 1))
-                    setCartMessage('')
-                  }}
-                  className="p-3 text-luxury-ivory transition hover:text-luxury-gold disabled:cursor-not-allowed disabled:opacity-30"
-                >
-                  <Plus size={16} />
-                </button>
-              </div>
-
-              <p className="mt-2 text-xs text-luxury-muted">
-                Maximum 10 books per selection.
-              </p>
-            </div>
+{/* Quantity selector temporarily disabled */}
 
             {/* Actions */}
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
