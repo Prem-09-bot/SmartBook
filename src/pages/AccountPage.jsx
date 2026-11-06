@@ -372,12 +372,12 @@ function EmptyOrders() {
 export default function AccountPage() {
   const navigate = useNavigate()
 
-  const { user, logout, isAuthenticated } = useAuth()
+  const { user, token, logout, isAuthenticated } = useAuth()
 
   const [activeTab, setActiveTab] = useState('overview')
  
 const { wishlistItems } = useWishlist()
-const [orders, setOrders] = useState(readOrders)
+const [orders, setOrders] = useState([])
 
  const [profile, setProfile] = useState(() => {
   const savedProfile = readProfile()
@@ -398,16 +398,39 @@ const [orders, setOrders] = useState(readOrders)
   const { cartCount, refreshCart } = useCart()
 
   useEffect(() => {
-    function syncOrders() {
-      setOrders(readOrders())
+    if (!isAuthenticated || !token) {
+      setOrders([])
+      return
     }
 
-    window.addEventListener('storage', syncOrders)
+    let cancelled = false
+
+    async function fetchOrders() {
+      try {
+        const response = await fetch('/api/orders', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        const result = await response.json()
+
+        if (!response.ok || !result.success) {
+          throw new Error(result.message || 'Unable to load orders.')
+        }
+
+        if (!cancelled) {
+          setOrders(Array.isArray(result.data?.orders) ? result.data.orders : [])
+        }
+      } catch (error) {
+        console.error('Unable to load order history:', error)
+        if (!cancelled) setOrders([])
+      }
+    }
+
+    fetchOrders()
 
     return () => {
-      window.removeEventListener('storage', syncOrders)
+      cancelled = true
     }
-  }, [])
+  }, [isAuthenticated, token])
 
   const wishlistCount = wishlistItems.filter((item) =>
   books.some((book) => book.id === item.id),
@@ -580,10 +603,7 @@ function handleBuyAgain(order) {
     setActiveTab(tab)
     setNotice('')
 
-    // Refresh local order data when opening the orders section.
-    if (tab === 'orders' || tab === 'overview') {
-      setOrders(readOrders())
-    }
+
   }
 
   return (
@@ -884,11 +904,7 @@ function handleBuyAgain(order) {
                   <EmptyOrders />
                 )}
 
-                <p className="mt-5 text-xs leading-6 text-luxury-muted">
-                  Orders placed using this frontend are stored in this
-                  browser. Once the backend is connected, this section
-                  can load your order history from the server.
-                </p>
+
               </div>
             )}
 
